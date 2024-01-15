@@ -2,10 +2,11 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\RoomResource\Pages;
-use App\Filament\Resources\RoomResource\RelationManagers;
-use App\Models\Room;
+use App\Filament\Resources\AdditionalServiceResource\Pages;
+use App\Filament\Resources\AdditionalServiceResource\RelationManagers;
+use App\Models\AdditionalService;
 use Filament\Forms;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -13,29 +14,22 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class RoomResource extends Resource
+class AdditionalServiceResource extends Resource
 {
-    protected static ?string $model = Room::class;
+    protected static ?string $model = AdditionalService::class;
 
-    protected static ?string $navigationIcon = 'heroicon-m-home-modern';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                 Forms\Components\TextInput::make('number')
-                ->numeric()
-                ->required()
-                ->maxLength(255),
-                Forms\Components\TextInput::make('floor')
-                ->maxLength(255),
-                Forms\Components\TextInput::make('people_number')
-                ->required()
-                ->maxLength(255),
-                Forms\Components\Select::make('building_id')
-                ->relationship('building','number')
+                Forms\Components\TextInput::make('name')
+                ->string()
                 ->required(),
-
+                TextInput::make('price')
+                ->numeric()
+                ->required(),
             ]);
     }
 
@@ -43,13 +37,11 @@ class RoomResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('number')
+                Tables\Columns\TextColumn::make('name')
                 ->searchable()
                 ->sortable(),
-                Tables\Columns\TextColumn::make('floor')
+                Tables\Columns\TextColumn::make('price')
                 ->searchable(),
-                Tables\Columns\TextColumn::make('people_number'),
-                Tables\Columns\TextColumn::make('building.name'),
             ])
             ->filters([
                 //
@@ -74,9 +66,9 @@ class RoomResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListRooms::route('/'),
-            'create' => Pages\CreateRoom::route('/create'),
-            'edit' => Pages\EditRoom::route('/{record}/edit'),
+            'index' => Pages\ListAdditionalServices::route('/'),
+            'create' => Pages\CreateAdditionalService::route('/create'),
+            'edit' => Pages\EditAdditionalService::route('/{record}/edit'),
         ];
     }
 }

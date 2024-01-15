@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('rooms', function (Blueprint $table) {
             $table->id();
             
-            $table->integer("number")->nullable();
+            $table->integer("number");
             $table->string("floor")->nullable();;
             $table->string("people_number");
             $table->foreignId('building_id')->constrained('buildings')->cascadeOnDelete();
@@ -28,6 +28,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        
         Schema::dropIfExists('rooms');
     }
 };
