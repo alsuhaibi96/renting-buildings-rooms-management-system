@@ -5,7 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class rooms_additional_service extends Model
+class Season extends Model
 {
     use HasFactory;
+
+    public function rooms()
+    {
+        return $this->belongsToMany(Room::class);
+    }
 }
