@@ -11,6 +11,6 @@ class AdditionalService extends Model
     
     public function rooms()
     {
-       return $this->belongsToMany(Room::class);
+       return $this->belongsToMany(Room::class,'rooms_additional_services');
     }
 }

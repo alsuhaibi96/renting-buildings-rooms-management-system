@@ -11,6 +11,6 @@ class Season extends Model
 
     public function rooms()
     {
-        return $this->belongsToMany(Room::class);
+        return $this->belongsToMany(Room::class,'rooms_seasons');
     }
 }

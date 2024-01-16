@@ -2,10 +2,16 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Resources\AdditionalServicesResource\RelationManagers\NameRelationManager;
 use App\Filament\Resources\RoomResource\Pages;
 use App\Filament\Resources\RoomResource\RelationManagers;
+use App\Filament\Resources\RoomResource\RelationManagers\AdditionalServicesRelationManager;
+use App\Filament\Resources\RoomResource\RelationManagers\SeasonsRelationManager;
 use App\Models\Room;
 use Filament\Forms;
+use Filament\Forms\Components\Group;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -23,18 +29,29 @@ class RoomResource extends Resource
     {
         return $form
             ->schema([
-                 Forms\Components\TextInput::make('number')
-                ->numeric()
-                ->required()
-                ->maxLength(255),
-                Forms\Components\TextInput::make('floor')
-                ->maxLength(255),
-                Forms\Components\TextInput::make('people_number')
-                ->required()
-                ->maxLength(255),
-                Forms\Components\Select::make('building_id')
-                ->relationship('building','number')
-                ->required(),
+                Section::make('Create Rooms')
+                ->description('Create rooms for a building')
+                ->schema([
+                    Forms\Components\TextInput::make('number')
+                    ->numeric()
+                    ->required()
+                    ->maxLength(255),
+                    Forms\Components\TextInput::make('floor')
+                    ->maxLength(255),
+                    Forms\Components\TextInput::make('people_number')
+                    ->required()
+                    ->maxLength(255),
+                    Forms\Components\Select::make('building_id')
+                    ->relationship('building','number')
+                    ->required(),
+                ])->columnSpan(2)->columns(2),
+                Group::make()->schema([
+// Section::make('Seasons')->schema([
+//     Select::make('season_id')
+//     ->relationship('seasons','name')
+//     ->required()
+// ])
+                ])
 
             ]);
     }
@@ -67,7 +84,8 @@ class RoomResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            SeasonsRelationManager::class,
+            AdditionalServicesRelationManager::class
         ];
     }
 
