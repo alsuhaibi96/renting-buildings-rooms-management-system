@@ -45,13 +45,6 @@ class RoomResource extends Resource
                     ->relationship('building','number')
                     ->required(),
                 ])->columnSpan(2)->columns(2),
-                Group::make()->schema([
-// Section::make('Seasons')->schema([
-//     Select::make('season_id')
-//     ->relationship('seasons','name')
-//     ->required()
-// ])
-                ])
 
             ]);
     }

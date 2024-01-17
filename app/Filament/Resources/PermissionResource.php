@@ -2,11 +2,11 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\AdditionalServiceResource\Pages;
-use App\Filament\Resources\AdditionalServiceResource\RelationManagers;
-use App\Models\AdditionalService;
+use App\Filament\Resources\PermissionResource\Pages;
+use App\Filament\Resources\PermissionResource\RelationManagers;
+use Spatie\Permission\Models\Permission;
 use Filament\Forms;
-use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -14,23 +14,29 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class AdditionalServiceResource extends Resource
+class PermissionResource extends Resource
 {
-    protected static ?string $model = AdditionalService::class;
+    protected static ?string $model = Permission::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-squares-plus';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
         return $form
+        ->schema([
+            Section::make('Create Permissions')
+            ->description('Create permissions for users')
             ->schema([
                 Forms\Components\TextInput::make('name')
                 ->string()
-                ->required(),
-                TextInput::make('price')
-                ->numeric()
-                ->required(),
-            ]);
+                ->required()
+                ->maxLength(255),
+                Forms\Components\TextInput::make('guard_name')
+                ->string()
+                ->maxLength(255),
+            ])->columnSpan(2)->columns(2),
+
+        ]);
     }
 
     public static function table(Table $table): Table
@@ -40,8 +46,9 @@ class AdditionalServiceResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                 ->searchable()
                 ->sortable(),
-                Tables\Columns\TextColumn::make('price')
-                ->searchable(),
+                Tables\Columns\TextColumn::make('guard_name')
+                ->searchable()
+                ->sortable()
             ])
             ->filters([
                 //
@@ -66,9 +73,9 @@ class AdditionalServiceResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListAdditionalServices::route('/'),
-            'create' => Pages\CreateAdditionalService::route('/create'),
-            'edit' => Pages\EditAdditionalService::route('/{record}/edit'),
+            'index' => Pages\ListPermissions::route('/'),
+            'create' => Pages\CreatePermission::route('/create'),
+            'edit' => Pages\EditPermission::route('/{record}/edit'),
         ];
     }
 }

@@ -21,24 +21,24 @@ class ReservationResource extends Resource
 {
     protected static ?string $model = Reservation::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-credit-card';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-               
+
                 TextInput::make('price')
-                ->numeric()
-                ->required(),
+                    ->numeric()
+                    ->required(),
                 Forms\Components\Select::make('room_id')
-                ->relationship('room','number')
-                ->required(),
+                    ->relationship('room', 'number')
+                    ->required(),
                 Forms\Components\Select::make('status_id')
-                ->relationship('status','status')
-                ->required(),
+                    ->relationship('status', 'status')
+                    ->required(),
                 DatePicker::make('Date')
-                ->required(),
+                    ->required(),
             ]);
     }
 
@@ -47,10 +47,10 @@ class ReservationResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('price')
-                ->searchable()
-                ->sortable(),
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('room.number')
-                ->searchable(),
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('status.status'),
             ])
             ->filters([
@@ -79,6 +79,12 @@ class ReservationResource extends Resource
             'index' => Pages\ListReservations::route('/'),
             'create' => Pages\CreateReservation::route('/create'),
             'edit' => Pages\EditReservation::route('/{record}/edit'),
+        ];
+    }
+    public static function getWidgets(): array
+    {
+        return [
+            ReservationResource\Widgets\Stats::class
         ];
     }
 }
