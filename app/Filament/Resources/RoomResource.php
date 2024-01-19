@@ -8,6 +8,7 @@ use App\Filament\Resources\RoomResource\RelationManagers;
 use App\Filament\Resources\RoomResource\RelationManagers\AdditionalServicesRelationManager;
 use App\Filament\Resources\RoomResource\RelationManagers\SeasonsRelationManager;
 use App\Models\Room;
+use App\Models\Season;
 use Filament\Forms;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Section;
@@ -36,6 +37,9 @@ class RoomResource extends Resource
                     ->numeric()
                     ->required()
                     ->maxLength(255),
+                    Forms\Components\TextInput::make('room_price')
+                    ->numeric()
+                    ->required(),
                     Forms\Components\TextInput::make('floor')
                     ->maxLength(255),
                     Forms\Components\TextInput::make('people_number')
@@ -44,6 +48,8 @@ class RoomResource extends Resource
                     Forms\Components\Select::make('building_id')
                     ->relationship('building','number')
                     ->required(),
+                    Forms\Components\Textarea::make('description')
+                    ->string(),
                 ])->columnSpan(2)->columns(2),
 
             ]);
@@ -56,10 +62,15 @@ class RoomResource extends Resource
                 Tables\Columns\TextColumn::make('number')
                 ->searchable()
                 ->sortable(),
+                Tables\Columns\TextColumn::make('room_price')
+                ->searchable()
+                ->sortable(),
                 Tables\Columns\TextColumn::make('floor')
                 ->searchable(),
                 Tables\Columns\TextColumn::make('people_number'),
                 Tables\Columns\TextColumn::make('building.name'),
+                
+         
             ])
             ->filters([
                 //

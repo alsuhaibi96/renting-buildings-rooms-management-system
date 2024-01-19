@@ -28,6 +28,10 @@ class SeasonResource extends Resource
                 Forms\Components\TextInput::make('name')
                 ->string()
                 ->required(),
+                Forms\Components\TextInput::make('each_room_price')
+                ->label("Room Price")
+                ->numeric()
+                ->required(),
                 DatePicker::make('start_date')
                 ->required(),
                 Forms\Components\DatePicker::make('end_date')
@@ -52,6 +56,9 @@ class SeasonResource extends Resource
                 ->sortable()
                 ->searchable(),
                 Tables\Columns\TextColumn::make('days')
+                ->sortable()
+                ->searchable(),
+                Tables\Columns\TextColumn::make('each_room_price')
                 ->sortable()
                 ->searchable(),
             ])
