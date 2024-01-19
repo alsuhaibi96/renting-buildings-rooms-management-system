@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
+use App\Filament\Resources\UserResource\RelationManagers\RolesRelationManager;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Components\Section;
@@ -14,6 +15,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Spatie\Permission\Models\Role;
 
 class UserResource extends Resource
 {
@@ -36,7 +38,13 @@ class UserResource extends Resource
                 ->email()
                 ->maxLength(255),
                 Forms\Components\TextInput::make('password')
-                ->password()
+                ->password(),
+                // Forms\Components\Select::make('role_id')
+                // ->options(function (){
+                //     return Role::where('guard_name','super-admin')->pluck('name','id');
+                // })
+                // ->label('Role')
+                // ->required(),
             ])->columnSpan(2)->columns(2),
 
         ]);
@@ -68,7 +76,7 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RolesRelationManager::class
         ];
     }
 

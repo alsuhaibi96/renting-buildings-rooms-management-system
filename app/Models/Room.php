@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+
 class Room extends Model
 {
     use HasFactory;
@@ -26,6 +27,8 @@ class Room extends Model
     {
         return $this->belongsToMany(Season::class,'rooms_seasons');
     }
+
+
 
     public function reservations():HasMany
     {
